@@ -1,0 +1,512 @@
+
+HTML
+
+<!DOCTYPE html><html lang="id"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You, My Everything</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- STYLE DASAR & TEMA --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #1a0812; 
+            color: #f7e1ed;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- SCREEN SCREENING KADO (OVERLAY) --- */
+        #gift-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #1a0812;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s;
+        }
+        .gift-box {
+            font-size: 80px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            user-select: none;
+        }
+        #gift-overlay p {
+            margin-top: 20px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #dca3be;
+            font-family: 'Cinzel', serif;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* --- UTAMA / KONTEN WEB --- */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px 20px 100px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* --- ANIMASI LOVE BERGUGURAN --- */
+        .heart-fall {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            z-index: 999;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+
+        /* --- ANIMASI BERGERAK GERAK (FLOATING EFFECT) --- */
+        .floating-text {
+            animation: float 4s ease-in-out infinite;
+        }
+        .slow-pulse {
+            animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- PEMUTAR MUSIK (FLOATING) --- */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(30, 10, 20, 0.85);
+            border: 1px solid rgba(220, 163, 190, 0.2);
+            padding: 10px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            max-width: 250px;
+        }
+        .music-cover {
+            width: 40px;
+            height: 40px;
+            background: #3a1528;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            animation: rotateCover 4s linear infinite;
+            animation-play-state: paused;
+        }
+        @keyframes rotateCover {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .music-info {
+            text-align: left;
+            font-size: 11px;
+            flex-grow: 1;
+        }
+        .music-title {
+            font-weight: bold;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-artist {
+            color: #dca3be;
+        }
+        .music-controls button {
+            background: none;
+            border: none;
+            color: #f7e1ed;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* --- TYPOGRAPHY & SECTIONS --- */
+        .subtitle-italic {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #dca3be;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        .tagline {
+            font-size: 12px;
+            color: #bfa0b0;
+            margin-bottom: 40px;
+        }
+        .flower-divider {
+            font-size: 24px;
+            margin: 30px 0;
+            animation: float 3s ease-in-out infinite alternate;
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+        .main-letter {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #e5cbd9;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        .signature {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 14px;
+            color: #dca3be;
+            margin-bottom: 60px;
+        }
+
+        /* --- GRID WHY I LOVE YOU (Goyang Berirama) --- */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+        .reason-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(220, 163, 190, 0.1);
+            border-radius: 12px;
+            padding: 20px 15px;
+            transition: transform 0.3s;
+            animation: float 5s ease-in-out infinite;
+        }
+        /* Memberikan variasi ritme gerak antar kartu agar estetik */
+        .reasons-grid .reason-card:nth-child(even) {
+            animation-delay: 1.5s;
+        }
+        .reason-card:hover {
+            transform: scale(1.05) !important;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .card-icon {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .card-desc {
+            font-size: 11px;
+            color: #bfa0b0;
+            line-height: 1.5;
+        }
+
+        /* --- GARDEN VIRTUAL INTERAKTIF --- */
+        .garden-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .garden-stem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .garden-flower {
+            font-size: 24px;
+            transition: transform 0.3s;
+            animation: float 3s ease-in-out infinite alternate;
+        }
+        .garden-stem:hover .garden-flower {
+            transform: scale(1.3) rotate(15deg);
+        }
+        .stem-line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #4a6b4e, #273e2a);
+            margin-top: 5px;
+        }
+        .garden-stem::after {
+            content: attr(data-meaning);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(30, 10, 20, 0.9);
+            border: 1px solid #dca3be;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+            z-index: 10;
+            opacity: 0;
+        }
+        .garden-stem:hover::after {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        /* --- FOTO GRID LOKAL FILE (4 KOTAK) --- */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px auto 60px auto;
+        }
+        .photo-box {
+            background-color: #2a1220;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(220, 163, 190, 0.15);
+            position: relative;
+            animation: pulse 4s ease-in-out infinite alternate;
+        }
+        .photo-grid .photo-box:nth-child(odd) {
+            animation-delay: 2s;
+        }
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-caption {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            font-size: 11px;
+            font-style: italic;
+            color: #dca3be;
+            background: rgba(26, 8, 18, 0.6);
+            padding: 2px 0;
+        }
+
+        /* --- FOOTER FINAL --- */
+        .final-words {
+            font-size: 12px;
+            color: #bfa0b0;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+    </style></head><body>
+
+    <div id="gift-overlay" onclick="openGift()">
+        <div class="gift-box">🎁</div>
+        <p>TAP TO OPEN</p>
+    </div>
+
+    <div class="music-player">
+        <div class="music-cover" id="coverRotator">❤️</div>
+        <div class="music-info">
+            <div class="music-title">Bersenja Gurau</div>
+            <div class="music-artist">Raim Laode</div>
+        </div>
+        <div class="music-controls">
+            <audio id="myAudio" loop src="bersenja-gurau.mp3"></audio>
+            <button id="playBtn" onclick="toggleMusic()">▶</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        
+        <p class="subtitle-italic">a love letter in bloom</p>
+        <h1 class="floating-text">For You, My Everything</h1>
+        <p class="tagline">Every heart-petal holds a whisper of how much you mean to me.</p>
+        
+        <div class="flower-divider">💖✨❤️</div>
+
+        <p class="subtitle-italic">from my heart</p>
+        <h2 class="slow-pulse">You are my wildest dream come true.</h2>
+        <p class="main-letter">
+            In a world full of ordinary moments, you are the extraordinary one. The way you laugh, the way you care, the way you simply exist — it fills every corner of my world with something I never knew I needed. These flowers are not enough. No words ever could be. But they carry every unspoken feeling I hold for you, pressed between their petals like tiny love letters waiting to be found.
+        </p>
+        <p class="signature">— Always yours ♡</p>
+
+        <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, rgba(220,163,190,0.3), transparent); margin: 40px 0;">
+
+        <p class="subtitle-italic">a thousand reasons why</p>
+        <h2 style="margin-bottom: 30px;">Why I Love You</h2>
+        
+        <div class="reasons-grid">
+            <div class="reason-card">
+                <div class="card-icon">❤️</div>
+                <div class="card-title">Your Smile</div>
+                <div class="card-desc">It lights up every room and every corner of my heart simultaneously.</div>
+            </div>
+            <div class="reason-card">
+                <div class="card-icon">💖</div>
+                <div class="card-title">Your Soul</div>
+                <div class="card-desc">Rare, genuine, and more beautiful than any flower ever grown.</div>
+            </div>
+            <div class="reason-card">
+                <div class="card-icon">🥰</div>
+                <div class="card-title">Your Kindness</div>
+                <div class="card-desc">The way you love the world makes me want to be better every single day.</div>
+            </div>
+            <div class="reason-card">
+                <div class="card-icon">✨</div>
+                <div class="card-title">Your Laughter</div>
+                <div class="card-desc">The best sound in the universe. My favourite melody, always.</div>
+            </div>
+        </div>
+
+        <p class="subtitle-italic">our secret garden</p>
+        <h2>A Garden Grown Just For You</h2>
+        <p class="tagline" style="margin-bottom: 10px;">✨ Sentuh bunga untuk melihat artinya ✨</p>
+        
+        <div class="garden-container">
+            <div class="garden-stem" data-meaning="Cinta Sejati">
+                <div class="garden-flower">❤️</div><div class="stem-line"></div>
+            </div>
+            <div class="garden-stem" data-meaning="Kebahagiaan">
+                <div class="garden-flower">💖</div><div class="stem-line"></div>
+            </div>
+            <div class="garden-stem" data-meaning="Kemurnian">
+                <div class="garden-flower">🥰</div><div class="stem-line"></div>
+            </div>
+            <div class="garden-stem" data-meaning="Kesetiaan">
+                <div class="garden-flower">✨</div><div class="stem-line"></div>
+            </div>
+        </div>
+
+        <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, rgba(220,163,190,0.3), transparent); margin: 50px 0;">
+
+        <p class="subtitle-italic">captured in time</p>
+        <h2>Your Beautiful Pictures</h2>
+        
+        <div class="photo-grid">
+            <div class="photo-box">
+                <img src="foto1.jpg" alt="Foto 1">
+                <div class="photo-caption">you</div>
+            </div>
+            <div class="photo-box">
+                <img src="foto2.jpg" alt="Foto 2">
+                <div class="photo-caption">are</div>
+            </div>
+            <div class="photo-box">
+                <img src="foto3.jpg" alt="Foto 3">
+                <div class="photo-caption">so</div>
+            </div>
+            <div class="photo-box">
+                <img src="foto4.jpg" alt="Foto 4">
+                <div class="photo-caption">beautiful</div>
+            </div>
+        </div>
+
+        <p class="subtitle-italic">always & forever</p>
+        <h2 class="floating-text">You Are Loved Beyond Words</h2>
+        <p class="final-words">
+            No matter where life takes us, know that somewhere in the universe, there is a garden blooming with every feeling I have ever held for you. You deserve the world. You deserve all the love. You deserve everything.
+        </p>
+        
+        <p class="subtitle-italic" style="margin-top: 50px; font-size: 11px;">made with love, just for you</p>
+    </div>
+
+    <script>
+        const audio = document.getElementById('myAudio');
+        const playBtn = document.getElementById('playBtn');
+        const coverRotator = document.getElementById('coverRotator');
+
+        function openGift() {
+            const overlay = document.getElementById('gift-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1000);
+
+            const mainContent = document.getElementById('main-content');
+            mainContent.style.display = 'block';
+            setTimeout(() => {
+                mainContent.style.opacity = '1';
+                mainContent.style.visibility = 'visible';
+            }, 100);
+
+            // Play music otomatis saat kado diklik
+            audio.play().then(() => {
+                coverRotator.style.animationPlayState = 'running';
+            }).catch(error => {
+                console.log("Autoplay ditolak sistem browser.");
+            });
+            playBtn.innerText = '⏸';
+
+            // Mulai buat hujan Love berguguran
+            setInterval(createHeart, 250);
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = '⏸';
+                coverRotator.style.animationPlayState = 'running';
+            } else {
+                audio.pause();
+                playBtn.innerText = '▶';
+                coverRotator.style.animationPlayState = 'paused';
+            }
+        }
+
+        // Hujan Love Emojis
+        function createHeart() {
+            const loveEmojis = ['❤️', '💖', '🥰', '✨', '💕', '💘'];
+            const heart = document.createElement('div');
+            heart.classList.add('heart-fall');
+            
+            heart.innerText = loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 18 + 12 + 'px';
+            
+            const duration = Math.random() * 3 + 4; // Jatuh dalam waktu 4-7 detik
+            heart.style.animationDuration = duration + 's';
+            heart.style.opacity = Math.random() * 0.8 + 0.2;
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+    </script></body></html>
